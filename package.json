@@ -1,0 +1,22 @@
+{
+  "name": "electron-class-rpc",
+  "version": "1.0.0",
+  "description": "In renderer process, constructing an instance of a class which is in main process.",
+  "main": "index.js",
+  "scripts": {
+    "test": "electron ./test"
+  },
+  "keywords": [
+    "electron",
+    "rpc"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/toyobayashi/electron-class-rpc.git"
+  },
+  "author": "toyobayashi",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^4.2.3"
+  }
+}
