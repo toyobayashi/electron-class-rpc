@@ -37,7 +37,7 @@ class ApiClass {
   }
 
   static _notExport () {
-    console.log('The member whose name starts width "_" is recognized as a private member and it won\'t be exported.')
+    console.log('The member whose name starts with "_" is recognized as a private member and it won\'t be exported.')
   }
 }
 
@@ -84,3 +84,4 @@ main()
 * If a method name ends with "Sync", it is a synchronous function, else it is an async function which will return `Promise` in renderer process.
 * If a member name starts with "_", it is recognized as a private member and it can not be access in renderer process.
 * Member properties should be primitive values. If not, what renderer process access is a copy to it instead of a referrence.
+* Extended class is not supported yet.

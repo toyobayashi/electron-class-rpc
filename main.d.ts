@@ -1,1 +1,1 @@
-export function exportClass<T = any> (className: string, classConstructor: T): void
+export function exportClass<T = any> (className: string, classConstructor: { new (...arg: any[]): T }): void
