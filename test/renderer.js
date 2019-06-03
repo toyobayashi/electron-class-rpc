@@ -24,7 +24,24 @@ async function main () {
   const asyncProp = await instance.getProp()
   console.log(asyncProp) // 22
 
-  instance.destroy() // Don't forget destroy instance.
+  instance.destroy() // Don't forget to destroy instance.
+  try {
+    instance.getPropSync() // throw error
+  } catch (err) {
+    console.log(err)
+  }
+
+  const ApiClassEx = classRpcRenderer.importClass('ApiClassEx')
+  ApiClassEx.testSync() // main process console log 'test'
+
+  const ex = new ApiClassEx('baz', 6, 9)
+  console.log(ex.a, ex.b, ex.c) // 'baz' 6 9
+  ex.a = 'www'
+  ex.c = 2
+  console.log(ex.getPropSync()) // www
+  console.log(ex.testSync()) // 2
+
+  ex.destroy() // Don't forget to destroy instance.
 }
 
 main()

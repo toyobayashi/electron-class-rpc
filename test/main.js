@@ -77,8 +77,24 @@ class ApiClass {
   }
 
   static _notExport () {
-    console.log('The member whose name starts width "_" is recognized as a private member and it won\'t be exported.')
+    console.log('The member whose name starts with "_" is recognized as a private member and it won\'t be exported.')
+  }
+}
+
+class ApiClassEx extends ApiClass {
+  constructor (a, b, c) {
+    super(a, b)
+    this.c = c
+  }
+
+  static testSync () {
+    console.log('test')
+  }
+
+  testSync () {
+    return this.c
   }
 }
 
 classRpcMain.exportClass('ApiClass', ApiClass)
+classRpcMain.exportClass('ApiClassEx', ApiClassEx)
