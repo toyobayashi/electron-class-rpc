@@ -113,6 +113,36 @@ async function main () {
 main()
 ```
 
+## TypeScript
+
+1. Write a global declaration file for exported API Class.
+
+    ``` ts
+    declare class CApiClass {
+      constructor (a: string, b: number): CApiClass
+      static getTypeSync (): string
+      static getType (): string
+      getPropSync (): string
+      getProp (): number
+    }
+    ```
+
+2. Export in main process.
+
+    ``` ts
+    import { exportClass } from 'electron-class-rpc/main'
+    class ApiClass { /* ... */ }
+    exportClass('ApiClass', ApiClass)
+    ```
+
+3. Import in renderer process.
+
+    ``` ts
+    import { importClass } from 'electron-class-rpc/renderer'
+    
+    const ApiClass = importClass<typeof CApiClass>('ApiClass')
+    ```
+
 ## Note
 
 * Specifying functions as parameter is not supported. You can use [toyobayashi/electron-function-ipc](https://github.com/toyobayashi/electron-function-ipc) if you want.
