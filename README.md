@@ -69,6 +69,8 @@ classRpcMain.exportClass('ApiClassEx', ApiClassEx)
 const classRpcRenderer = require('electron-class-rpc/renderer.js')
 
 async function main () {
+  console.log(classRpcRenderer.listClass()) // ['ApiClass', 'ApiClassEx']
+
   const ApiClass = classRpcRenderer.importClass('ApiClass')
 
   const syncType = ApiClass.getTypeSync()
@@ -108,6 +110,20 @@ async function main () {
   console.log(ex.testSync()) // 2
 
   ex.destroy() // Don't forget to destroy instance.
+
+  classRpcRenderer.removeClass('ApiClass')
+  console.log(classRpcRenderer.listClass()) // ['ApiClassEx']
+  try {
+    ApiClass.getTypeSync() // throw error
+  } catch (err) {
+    console.log(err)
+  }
+
+  try {
+    classRpcRenderer.importClass('ApiClass') // throw error
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 main()
@@ -143,9 +159,26 @@ main()
     const ApiClass = importClass<typeof CApiClass>('ApiClass')
     ```
 
+## Api
+
+### Main process
+
+``` ts
+export function exportClass<T = any> (className: string, classConstructor: { new (...arg: any[]): T }): void;
+```
+
+### Renderer process
+
+``` ts
+export function importClass<T extends NewableFunction = any> (className: string): (T & { new (...arg: any[]): { destroy (): void } });
+export function listClass (): string[];
+export function removeClass (className: string): boolean;
+```
+
 ## Note
 
 * Specifying functions as parameter is not supported. You can use [toyobayashi/electron-function-ipc](https://github.com/toyobayashi/electron-function-ipc) if you want.
 * If a method name ends with "Sync", it is a synchronous function, else it is an async function which will return `Promise` in renderer process.
 * If a member name starts with "_", it is recognized as a private member and it can not be access in renderer process.
 * Member properties should be primitive values. If not, what renderer process access is a copy to it instead of a referrence.
+* Why not use `require('electron').remote.require()` in renderer process? The answer is that using this package can work with webpack well.

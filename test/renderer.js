@@ -3,6 +3,8 @@ Object.defineProperty(window, 'ELECTRON_DISABLE_SECURITY_WARNINGS', { value: tru
 const classRpcRenderer = require('../renderer.js')
 
 async function main () {
+  console.log(classRpcRenderer.listClass()) // ['ApiClass', 'ApiClassEx']
+
   const ApiClass = classRpcRenderer.importClass('ApiClass')
 
   const syncType = ApiClass.getTypeSync()
@@ -42,6 +44,20 @@ async function main () {
   console.log(ex.testSync()) // 2
 
   ex.destroy() // Don't forget to destroy instance.
+
+  classRpcRenderer.removeClass('ApiClass')
+  console.log(classRpcRenderer.listClass()) // ['ApiClassEx']
+  try {
+    ApiClass.getTypeSync() // throw error
+  } catch (err) {
+    console.log(err)
+  }
+
+  try {
+    classRpcRenderer.importClass('ApiClass') // throw error
+  } catch (err) {
+    console.log(err)
+  }
 }
 
 main()
